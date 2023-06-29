@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Sobreaviso</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="text-center">Sistema de Sobreaviso</h1>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="mb-3">Cadastro</h2>
+        <form action="/cadastro" method="POST" class="row">
+          <div class="form-group col-md-6">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" class="form-control" required>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="cidade">Cidade:</label>
+            <select id="cidade" name="cidade" class="form-control" required>
+              <option value="Jaru">Jaru</option>
+              <option value="Ouro Preto do Oeste">Ouro Preto do Oeste</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="dataEntrada">Data de Entrada:</label>
+            <input type="date" id="dataEntrada" name="dataEntrada" class="form-control" required>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="horaEntrada">Hora de Entrada:</label>
+            <input type="time" id="entrada" name="entrada" class="form-control" required>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="dataSaida">Data de Saída:</label>
+            <input type="date" id="dataSaida" name="dataSaida" class="form-control" required>
+          </div>
+
+
+          <div class="form-group col-md-6">
+            <label for="horaSaida">Hora de Saída:</label>
+            <input type="time" id="saida" name="saida" class="form-control" required>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="tipo">Tipo:</label>
+            <input type="radio" id="tipo_interno" name="tipo" value="Interno" required>
+            <label for="tipo_interno">Interno</label>
+            <input type="radio" id="tipo_externo" name="tipo" value="Externo" required>
+            <label for="tipo_externo">Externo</label>
+          </div>
+          
+        
+          <div class="col-md-12 ">
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-12 ">
+        <h2 class="mb-3">Lista de Pessoas em Sobreaviso</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Cidade</th>
+              <th>Entrada</th>
+              <th>Saída</th>
+              <th>Tipo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pessoas.forEach(pessoa=> { %>
+              <tr>
+                <td>
+                  <%= pessoa.nome %>
+                </td>
+                <td>
+                  <%= pessoa.cidade %>
+                </td>
+                <td>
+                  <%= pessoa.dataEntrada %> às <%= pessoa.entrada %>
+                </td>
+                <td>
+                  <%= pessoa.dataSaida %> às <%= pessoa.saida %>
+                </td>
+                <td>
+                  <%= pessoa.tipo %>
+                </td>
+
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                    data-target="#confirmModal_<%= pessoa.id %>">Remover</button>
+                  <!-- Modal de confirmação -->
+                  <div class="modal fade" id="confirmModal_<%= pessoa.id %>" tabindex="-1" role="dialog"
+                    aria-labelledby="confirmModalLabel_<%= pessoa.id %>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="confirmModalLabel_<%= pessoa.id %>">Confirmar Remoção</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Tem certeza de que deseja remover <%= pessoa.nome %>?
+                            Essa ação é irreversível.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                          <a href="/remover/<%= pessoa.id %>" class="btn btn-danger">Remover</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
